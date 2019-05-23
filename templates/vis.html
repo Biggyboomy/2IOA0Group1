@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{ resources }}
+    <style>
+
+html {
+    overflow-y: scroll;
+    font-family: barlow-extralight, barlow, sans-serif;
+}
+
+.nav {
+  list-style-type: none;
+  margin: 1.5%;
+  padding-left: 33%;
+  padding-top: 0%;
+  overflow: hidden;
+  background: rgba(204, 204, 204, 0.0);
+  position: relative;
+}
+
+.groupname {
+  font-size: 25px;
+  padding-left: 10%;
+  padding-top: 2%;
+  position: absolute;
+}
+
+li {
+  position: relative;
+  top: 7%;
+  transform: translateY(70%);
+  float: left;
+  margin: 3%;
+  padding-left: 1%;
+}
+
+a:hover {
+  color: darkgray;
+}
+
+a{
+  padding-top: 11%;
+  text-align: right;
+}
+
+li a {
+  display: block;
+  color: #605E5E;
+  font-size: 14px;
+  text-align: center;
+  padding: 2.5px 25px;
+  text-decoration: none;
+  position: relative;
+}
+
+.myplot {
+  float: left;
+
+  padding-top: 5%;
+  padding-left: 2%;
+}
+
+.myplot2 {
+    float: right;
+
+    padding-top: 2%;
+    padding-left: 2%;
+}
+
+.csvListDiv{
+    padding-left: 44%;
+    padding-top: 2%;
+}
+
+
+  </style>
+</head>
+<header>
+        <!--navbar-->
+        <a class="groupname">DBL GROUP 1</a>
+    <ul class="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/visualization">Visualization</a></li>
+        <li><a href="/settings">Settings</a></li>
+    </ul>
+</header>
+
+
+
+<!--plot select-->
+    <div class="csvListDiv">
+        <div>Select a Dataset:</div>
+         <form name="dropdownselect" action ='' method="POST" >
+             <select name='set'>
+                     {% for set in arr[0:] %}
+               <option value= "{{set}}">{{ set }}</option>"
+                     {% endfor %}
+             </select>
+            <br>
+            <p><input type="submit" value="Plot"></p>
+        </form>
+    </div>
+
+
+
+
+<!--plots-->
+<div id="page-container">
+   <div id="content-wrap">
+  <div id="myplot" class="myplot"></div>
+  <div id="myplot2" class="myplot2"></div>
+
+  <script>
+  fetch('/plot')
+    .then(function(response) { return response.json(); })
+    .then(function(item) { Bokeh.embed.embed_item(item, "myplot"); })
+  </script>
+
+  <script>
+  fetch('/plot2')
+    .then(function(response) { return response.json(); })
+    .then(function(item) { Bokeh.embed.embed_item(item, "myplot2"); })
+  </script>
+</div>
+</div>
+
+</body>
+</html>

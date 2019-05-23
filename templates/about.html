@@ -1,0 +1,35 @@
+{% extends 'page.html' %}
+
+{% block body %}
+
+<div class="heading">
+    <h1>About</h1>
+</div>
+
+<div class="video">
+    <video src="/static/Video.mp4" style="float:right" width="500" controls>
+    </video>
+</div>
+
+<body>
+
+<div class="para1">
+    <h2>DBL Group 1</h2>
+    <p>This visualization tool will be used to visualize data in the
+    forms of Node Link diagrams or adjacency matrices, it is a useful
+    tool that can be used to analyse and more easily understand dataset's.
+    We have created it using Bokeh and our visualizations include an array of
+    interactions that make the visualizations more intuitive.</p>
+</div>
+
+<div class="para2">
+    <h2>FAQ's</h2>
+    <p><b>How do I upload a dataset?</b></p>
+    <p>On the home page click the upload button
+        and then select the dataset you would like to visualize</p>
+    <p><b>How do I interact with the visualizations?</b></p>
+    <p>Hover over a node and click on it to
+        drag it</p>
+</div>
+</body>
+{% endblock %}

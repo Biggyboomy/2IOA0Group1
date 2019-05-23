@@ -1,0 +1,28 @@
+{% extends 'page.html' %}
+
+{% block body %}
+
+    <div>
+        <div class="upload">
+            <form class="button" method=POST action="{{ url_for('upload') }}"
+                enctype=multipart/form-data>
+                <input type=file name=any>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+
+
+    <div>
+        <div class="pic1">
+            <img src="/static/data-vis.jpg" alt=".">
+            <img src="/static/data.jpg" alt=".">
+            <img src="/static/round.png" alt=".">
+        </div>
+        <div class="pic2">
+            <img src="/static/plot.png" alt=".">
+            <img src="/static/thing.jpeg" alt=".">
+
+        </div>
+    </div>
+{% endblock %}

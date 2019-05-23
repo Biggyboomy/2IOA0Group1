@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FlaskForVisualTool</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<header>
+    <!-- EVERY CHANGE THAT IS MADE NEEDS TO BE MADE IN THE VISUALIZATION HTML AS WELL -->
+            <a class="groupname">DBL GROUP 1</a>
+
+    <ul class="nav">
+
+        <li><a class="home" href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/visualization">Visualization</a></li>
+        <li><a href="/settings">Settings</a></li>
+        <li><button id="btnhelp" class="btnhelp">Help</button></li>
+    </ul>
+</header>
+
+<style>
+.popup {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 200px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.uploadhelppopup {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 200px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Pop up Content */
+.popup-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-name: animatetop;
+    animation-duration: 0.7s;
+}
+
+/*upload popup content*/
+.uploadpopup-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-name: animatetop;
+    animation-duration: 0.7s;
+}
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+/* The Close Button */
+.close {
+  color: #9a9a9a;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close2 {
+  color: #9a9a9a;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close2:hover,
+.close2:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+
+<body>
+<!-- The popup -->
+<div id="popup" class="popup">
+
+  <!-- popup content -->
+  <div class="popup-content">
+    <div class="popup-header">
+    <span class="close">&times;</span>
+    <h3>What do you need help with?</h3>
+  </div>
+    <div class="popup-body">
+        <button id="uploadhelpbtn" class="btnhelp">Uploading data</button>
+        <button id="interactionhelpbtn" class="btnhelp">Interacting with visualizations</button>
+    </div>
+</div>
+
+<!--uploadhelp popup-->
+<div id="uploadhelppopup" class="uploadhelppopup">
+
+  <!-- popup content -->
+  <div class="uploadpopup-content">
+    <span class="close2">&times;</span>
+    <h3>Uploading Data</h3>
+    <p>To upload data go to the Home page and select "Choose File", once you select the data file that you would like to upload, click the "Submit" button.</p>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+// Get the popup
+var popup = document.getElementById('popup');
+
+// Get the button that opens the popup
+var btn = document.getElementById('btnhelp');
+
+// Get the <span> element that closes the popup
+var span = document.getElementsByClassName("close")[0];
+
+//Get the uploadhelp button
+var uploadbtn = document.getElementById('uploadhelpbtn');
+
+//Get the upload popup
+var uploadpopup = document.getElementsByClassName("uploadhelppopup")[0];
+
+// Get the <span> element that closes the popup
+var span2 = document.getElementsByClassName("close2")[0];
+
+// When the user clicks the button, open the popup
+btn.onclick = function() {
+  popup.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the popup
+span.onclick = function() {
+  popup.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the popup, close it
+window.onclick = function(event) {
+  if (event.target == popup) {
+    popup.style.display = "none";
+  }
+};
+
+uploadbtn.onclick = function() {
+     uploadpopup.style.display = "block";
+};
+
+span2.onclick = function() {
+  uploadpopup.style.display = "none";
+};
+
+</script>
+</body>
+</html>
