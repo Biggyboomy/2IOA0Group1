@@ -1,0 +1,113 @@
+from bokeh.layouts import row   
+from bokeh.palettes import all_palettes
+from bokeh.layouts import gridplot, row
+from bokeh.models import HoverTool
+from math import pi
+from bokeh.models import LinearColorMapper, BasicTicker, ColorBar
+from holoviews.element.graphs import layout_nodes
+
+from bokeh.models import HoverTool, BoxSelectTool
+import os, time
+import networkx as nx 
+from pandas import DataFrame
+from pathlib import Path
+from bokeh.plotting import figure, show, output_file
+
+from bokeh.models import FactorRange
+from bokeh.palettes import plasma as Plasma256
+import numpy as np
+import holoviews as hv
+import pandas as pd
+import statistics
+from holoviews import opts
+hv.extension('bokeh')
+
+#only file0_dummy is used
+file  = './nodedummy.csv'
+
+#read csv file
+df_data = pd.read_csv(file, sep=';', header=0, index_col=False)
+
+#declaring lists
+hold = df_data.shape[0]
+
+amount = []
+colorMeans = []
+
+   
+names = list(df_data.columns.values)
+del names[0]
+
+
+i = 1
+while i <= hold:
+    namesVal = df_data.iloc[:, i].tolist()
+    j = 0
+    length = len(namesVal)
+    if sum(namesVal) == 0.0 or sum(namesVal) == 1.0:
+        del names[j]
+        #drop name
+        #get rid of values
+    else:
+        while j < length:
+            if namesVal[j] == 0.0 or namesVal[j] == 1.0:
+                namesVal.remove(namesVal[j])
+                length = length - 1
+            else:
+                pass
+            j += 1      
+        namesTimes = len(namesVal)
+        amount.append(namesTimes)
+        mean = statistics.mean(namesVal) 
+        colorMeans.append(mean)
+    i += 1
+
+df_plot = pd.DataFrame(columns=['names', 'amount', 'colorMeans', 'colorCodes'])
+
+# puts said lists in columns
+df_plot['names'] = names
+df_plot['amount'] = amount
+df_plot['colorMeans'] = colorMeans
+count_row = df_plot.shape[0]
+df_plot['colorCodes'] = '#0C0786'
+
+df_plot = df_plot.sort_values('colorMeans', ascending=True)
+
+if count_row < 255:
+    df_plot['colorCodes'] = Plasma256(count_row)
+else:
+    colorHold = np.ceil(count_row/255)
+    yourList = Plasma256(255)
+    longlist = list(np.repeat(yourList, colorHold))
+    differ = len(longlist) - count_row
+    del longlist[-differ:]
+    df_plot['colorCodes'] = longlist
+
+
+df_plot = df_plot.reset_index()
+del df_plot['index']
+color = df_plot['colorCodes']
+names = df_plot['names'].values.tolist()
+
+#TOOLS = [HoverTool()]
+
+sorted_links = sorted(names, key=lambda x: df_plot['colorMeans'][names.index(x)])
+q = figure(x_range=sorted_links, plot_height=650, plot_width=1400, title="Barchart") #, tools=TOOLS,)
+
+q.vbar(x=names, top=amount, width=0.7, color=color)
+q.xgrid.grid_line_color = None
+q.y_range.start = 0
+
+#q.x_range.factors = df_plot['colorMeans']
+#q.x_range = FactorRange(factors=df_plot['colorMeans'])
+#show(q.x_range.factors)
+q.xaxis.major_label_orientation = np.pi / 2.8
+
+#colorbar
+color_mapper = LinearColorMapper(palette="Plasma256", low=df_plot['colorMeans'].min(),
+                                 high=df_plot['colorMeans'].max())
+color_bar = ColorBar(color_mapper=color_mapper, ticker=BasicTicker(),
+                     location=(0, 0))
+q.add_layout(color_bar, 'left')
+
+show(q)
